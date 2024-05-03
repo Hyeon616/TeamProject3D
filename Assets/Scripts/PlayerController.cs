@@ -9,7 +9,9 @@ public class PlayerController : MonoBehaviour
 
 
     public float BasePlayerHp = 50.0f;
-    public int maxBullet = 10;
+    public int currentBullet = 30;//쏘고 남은 현재 총알 개수 
+    public int maxBullet = 100;//예비 총알 개수
+    public int currentBulletTemp = 30;//장전 시 30개 채워지도록 하는 변수
 
     private float moveSpeed = 2.0f;
     private float sprintSpeed = 4.0f;
@@ -132,13 +134,15 @@ public class PlayerController : MonoBehaviour
 
     public void OnFire(InputValue inputValue)
     {
-        if (maxBullet != 0)
+        if (reload == true)
+            return;
+        if (currentBullet > 0)
         {
             FireInput(inputValue.isPressed);
             anim.SetTrigger("Fire");
             RaycastHit hit;
 
-            maxBullet -= 1;
+            currentBullet -= 1;
 
             Vector3 targetPosition = Vector3.zero;
 
@@ -152,18 +156,32 @@ public class PlayerController : MonoBehaviour
 
 
             }
-        }
+            if (currentBullet == 0)
+            {
+                OnReload();
+            }
+        }  
     }
-    public void OnReload(InputValue inputValue)
+    public void OnReload()
     {
-        ReloadInput(inputValue.isPressed);
-        anim.SetTrigger("Reload");
-        Invoke("BulletDelay", 3);
+         if (maxBullet > 0)
+        {
+            reload = true;            
+            anim.SetTrigger("Reload");
+            Invoke("BulletDelay", 3);         
+        }
+
     }
 
     public void BulletDelay()
     {
-        maxBullet = 10;
+        reload = false;
+        //총알 몇 개 쐈는지 계산해서 bulletsToReload에 넣음
+        int bulletsToReload = currentBulletTemp - currentBullet;
+        //계산된 개수 currentBullet 여기 추가해주고
+        currentBullet += bulletsToReload;
+        //추가한만큼 예비 탄창에서 빼기
+        maxBullet -= bulletsToReload;
     }
 
     public void MoveInput(Vector3 moveInput)

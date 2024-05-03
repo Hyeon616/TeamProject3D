@@ -6,12 +6,13 @@ public class PlayerController : MonoBehaviour
 {
 
     [SerializeField] private CinemachineVirtualCamera aimCam;
-
-
+    public PlayerInput playerInput;
+    
+    public GameObject grenadePrefab;
+    public Transform throwPoint;
+    
     public float BasePlayerHp = 50.0f;
-    public int currentBullet = 30;//쏘고 남은 현재 총알 개수 
-    public int maxBullet = 100;//예비 총알 개수
-    public int currentBulletTemp = 30;//장전 시 30개 채워지도록 하는 변수
+    public int maxBullet = 10;
 
     private float moveSpeed = 2.0f;
     private float sprintSpeed = 4.0f;
@@ -28,7 +29,7 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private LayerMask targetLayer;
     public float jumpHeight = 2.0f;
-    public float timeToJumpApex = 0.4f;
+    public float timeToJumpApex = 0.4f; 
     private float gravity;
     private float jumpVelocity;
     private bool isJumping = false;
@@ -38,13 +39,15 @@ public class PlayerController : MonoBehaviour
 
     private Animator anim;
     private CharacterController cc;
-
+    public GameObject weapon;
+    
 
     private Transform camTransform;
 
 
     void Start()
     {
+        playerInput = GetComponent<PlayerInput>();
         anim = GetComponent<Animator>();
         cc = GetComponent<CharacterController>();
 
@@ -52,8 +55,9 @@ public class PlayerController : MonoBehaviour
         jumpVelocity = Mathf.Abs(gravity) * timeToJumpApex;
 
         camTransform = Camera.main.transform;
+       
 
-
+        
         Debug.Log($"캐릭터 HP : {BasePlayerHp}");
     }
 
@@ -61,11 +65,47 @@ public class PlayerController : MonoBehaviour
     {
         Move();
         Jump();
+        Zoom();
+        ThrowGrenade();
+    }
+
+    private void Zoom()
+    {
+        playerInput.actions["Zoom"].performed += ctx =>
+        {
+            if (Mouse.current.rightButton.isPressed && aimCam.m_Lens.FieldOfView == 60)
+            {
+                aimCam.m_Lens.FieldOfView = 30;
+            }
+            else { aimCam.m_Lens.FieldOfView = 60; }
+        };
+    }
+
+    private void ThrowGrenade()
+    {
+        playerInput.actions["Toss"].performed += ctx =>
+        {
+            if (Keyboard.current.eKey.isPressed)
+            {
+                weapon.SetActive(false);
+                anim.SetTrigger("Toss");
+                Invoke("Toss", 2f);
+                Invoke("Active", 3);
+            }
+        };
+    }
+    private void Toss()
+    {
+        GameObject grenand = Instantiate(grenadePrefab, throwPoint.position, throwPoint.rotation);
+    }
+
+    private void Active()
+    {
+        weapon.SetActive(true);
     }
 
     private void Move()
     {
-
         float targetSpeed = sprint ? sprintSpeed : moveSpeed;
 
         if (move == Vector3.zero)
@@ -91,7 +131,7 @@ public class PlayerController : MonoBehaviour
         }
 
         Quaternion targetRotation = Quaternion.Euler(0, camTransform.eulerAngles.y, 0);
-
+        
         transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
     }
 
@@ -134,54 +174,34 @@ public class PlayerController : MonoBehaviour
 
     public void OnFire(InputValue inputValue)
     {
-        if (reload == true)
-            return;
-        if (currentBullet > 0)
-        {
+        if (maxBullet != 0)
+        { 
             FireInput(inputValue.isPressed);
             anim.SetTrigger("Fire");
             RaycastHit hit;
 
-            currentBullet -= 1;
+            maxBullet -= 1;
 
             Vector3 targetPosition = Vector3.zero;
 
             if (Physics.Raycast(camTransform.position, camTransform.forward, out hit, Mathf.Infinity, targetLayer))
             {
                 targetPosition = hit.point;
-
-                IDamageable damageAble = hit.transform.gameObject.GetComponent<IDamageable>();
-                if (damageAble != null)
-                    damageAble.Damage(1);
-
-
+                hit.transform.gameObject.SetActive(false);
             }
-            if (currentBullet == 0)
-            {
-                OnReload();
-            }
-        }  
-    }
-    public void OnReload()
-    {
-         if (maxBullet > 0)
-        {
-            reload = true;            
-            anim.SetTrigger("Reload");
-            Invoke("BulletDelay", 3);         
         }
+    }
 
+    public void OnReload(InputValue inputValue)
+    {
+        ReloadInput(inputValue.isPressed);
+        anim.SetTrigger("Reload");
+        Invoke("BulletDelay", 3);
     }
 
     public void BulletDelay()
     {
-        reload = false;
-        //총알 몇 개 쐈는지 계산해서 bulletsToReload에 넣음
-        int bulletsToReload = currentBulletTemp - currentBullet;
-        //계산된 개수 currentBullet 여기 추가해주고
-        currentBullet += bulletsToReload;
-        //추가한만큼 예비 탄창에서 빼기
-        maxBullet -= bulletsToReload;
+        maxBullet = 10;
     }
 
     public void MoveInput(Vector3 moveInput)

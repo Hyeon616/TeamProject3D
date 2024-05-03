@@ -7,6 +7,10 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private CinemachineVirtualCamera aimCam;
 
+    
+    public float BasePlayerHp = 50.0f;
+    public int maxBullet = 10;
+
     private float moveSpeed = 2.0f;
     private float sprintSpeed = 4.0f;
 
@@ -42,19 +46,19 @@ public class PlayerController : MonoBehaviour
         anim = GetComponent<Animator>();
         cc = GetComponent<CharacterController>();
 
-
         gravity = -(2 * jumpHeight) / Mathf.Pow(timeToJumpApex, 2);
         jumpVelocity = Mathf.Abs(gravity) * timeToJumpApex;
 
         camTransform = Camera.main.transform;
 
+        
+        Debug.Log($"Ä³¸¯ÅÍ HP : {BasePlayerHp}");
     }
 
     void Update()
     {
         Move();
         Jump();
-        
     }
 
     private void Move()
@@ -128,16 +132,21 @@ public class PlayerController : MonoBehaviour
 
     public void OnFire(InputValue inputValue)
     {
-        FireInput(inputValue.isPressed);
-        anim.SetTrigger("Fire");
-        RaycastHit hit;
+        if (maxBullet != 0)
+        { 
+            FireInput(inputValue.isPressed);
+            anim.SetTrigger("Fire");
+            RaycastHit hit;
 
-        Vector3 targetPosition = Vector3.zero;
+            maxBullet -= 1;
 
-        if (Physics.Raycast(camTransform.position, camTransform.forward, out hit, Mathf.Infinity, targetLayer))
-        {
-            targetPosition = hit.point;
-            hit.transform.gameObject.SetActive(false);
+            Vector3 targetPosition = Vector3.zero;
+
+            if (Physics.Raycast(camTransform.position, camTransform.forward, out hit, Mathf.Infinity, targetLayer))
+            {
+                targetPosition = hit.point;
+                hit.transform.gameObject.SetActive(false);
+            }
         }
     }
 
@@ -145,6 +154,12 @@ public class PlayerController : MonoBehaviour
     {
         ReloadInput(inputValue.isPressed);
         anim.SetTrigger("Reload");
+        Invoke("BulletDelay", 3);
+    }
+
+    public void BulletDelay()
+    {
+        maxBullet = 10;
     }
 
     public void MoveInput(Vector3 moveInput)
@@ -183,4 +198,5 @@ public class PlayerController : MonoBehaviour
         }
         return false;
     }
+
 }

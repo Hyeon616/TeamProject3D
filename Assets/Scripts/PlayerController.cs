@@ -6,16 +6,12 @@ public class PlayerController : MonoBehaviour
 {
 
     [SerializeField] private CinemachineVirtualCamera aimCam;
-<<<<<<< HEAD
 
-
-=======
     public PlayerInput playerInput;
     
     public GameObject grenadePrefab;
     public Transform throwPoint;
     
->>>>>>> 25396ae (ì¤Œì¸/ìˆ˜ë¥˜íƒ„ ëª¨ì…˜ ì¶”ê°€)
     public float BasePlayerHp = 50.0f;
     public int currentBullet = 30;//½î°í ³²Àº ÇöÀç ÃÑ¾Ë °³¼ö 
     public int maxBullet = 100;//¿¹ºñ ÃÑ¾Ë °³¼ö

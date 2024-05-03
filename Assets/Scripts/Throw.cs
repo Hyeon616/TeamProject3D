@@ -29,7 +29,7 @@ public class Throw : MonoBehaviour
 
     void Explosion()
     {
-        particle.Play();
+        //particle.Play();
         body.velocity = Vector3.zero;
         Destroy(gameObject, particle.main.duration);
     }

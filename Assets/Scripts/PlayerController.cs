@@ -220,5 +220,9 @@ public class PlayerController : MonoBehaviour
         }
         return false;
     }
+    public void bulletUp(int count)
 
+    {
+        maxBullet += 10;
+    }
 }

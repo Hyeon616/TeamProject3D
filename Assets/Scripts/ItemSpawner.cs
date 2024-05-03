@@ -46,7 +46,7 @@ public class ItemSpawner : MonoBehaviour
             if (newItem == null)
             {
                 // 오브젝트 풀이 비어있는 경우 새로운 오브젝트를 생성하여 추가
-                Debug.LogWarning("Object pool is empty. Creating a new object...");
+                Debug.LogWarning("오브젝트 풀 비어있다");
                 newItem = Instantiate(itemPrefab);
                 objectPool.Add(newItem);
             }
@@ -70,7 +70,7 @@ public class ItemSpawner : MonoBehaviour
         }
         else
         {
-            Debug.LogError("Failed to spawn item: item prefab is null");
+            Debug.LogError("프리팹 없다");
         }
     }
 

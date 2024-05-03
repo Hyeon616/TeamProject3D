@@ -140,6 +140,7 @@ public class PlayerController : MonoBehaviour
 
             maxBullet -= 1;
 
+
             Vector3 targetPosition = Vector3.zero;
 
             if (Physics.Raycast(camTransform.position, camTransform.forward, out hit, Mathf.Infinity, targetLayer))
@@ -147,6 +148,16 @@ public class PlayerController : MonoBehaviour
                 targetPosition = hit.point;
                 hit.transform.gameObject.SetActive(false);
             }
+
+        if (Physics.Raycast(camTransform.position, camTransform.forward, out hit, Mathf.Infinity, targetLayer))
+        {
+            targetPosition = hit.point;
+
+            IDamageable damageAble = hit.transform.gameObject.GetComponent<IDamageable>();
+            if (damageAble != null)
+                damageAble.Damage(1);
+            
+
         }
     }
 

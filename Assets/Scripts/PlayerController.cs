@@ -7,7 +7,7 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private CinemachineVirtualCamera aimCam;
 
-    
+
     public float BasePlayerHp = 50.0f;
     public int maxBullet = 10;
 
@@ -26,7 +26,7 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private LayerMask targetLayer;
     public float jumpHeight = 2.0f;
-    public float timeToJumpApex = 0.4f; 
+    public float timeToJumpApex = 0.4f;
     private float gravity;
     private float jumpVelocity;
     private bool isJumping = false;
@@ -51,7 +51,7 @@ public class PlayerController : MonoBehaviour
 
         camTransform = Camera.main.transform;
 
-        
+
         Debug.Log($"Ä³¸¯ÅÍ HP : {BasePlayerHp}");
     }
 
@@ -89,7 +89,7 @@ public class PlayerController : MonoBehaviour
         }
 
         Quaternion targetRotation = Quaternion.Euler(0, camTransform.eulerAngles.y, 0);
-        
+
         transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
     }
 
@@ -133,34 +133,27 @@ public class PlayerController : MonoBehaviour
     public void OnFire(InputValue inputValue)
     {
         if (maxBullet != 0)
-        { 
+        {
             FireInput(inputValue.isPressed);
             anim.SetTrigger("Fire");
             RaycastHit hit;
 
             maxBullet -= 1;
 
-
             Vector3 targetPosition = Vector3.zero;
 
             if (Physics.Raycast(camTransform.position, camTransform.forward, out hit, Mathf.Infinity, targetLayer))
             {
                 targetPosition = hit.point;
-                hit.transform.gameObject.SetActive(false);
+
+                IDamageable damageAble = hit.transform.gameObject.GetComponent<IDamageable>();
+                if (damageAble != null)
+                    damageAble.Damage(1);
+
+
             }
-
-        if (Physics.Raycast(camTransform.position, camTransform.forward, out hit, Mathf.Infinity, targetLayer))
-        {
-            targetPosition = hit.point;
-
-            IDamageable damageAble = hit.transform.gameObject.GetComponent<IDamageable>();
-            if (damageAble != null)
-                damageAble.Damage(1);
-            
-
         }
     }
-
     public void OnReload(InputValue inputValue)
     {
         ReloadInput(inputValue.isPressed);

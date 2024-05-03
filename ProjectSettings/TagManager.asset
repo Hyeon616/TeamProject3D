@@ -11,8 +11,13 @@ TagManager:
   - 
   - Water
   - UI
+<<<<<<< HEAD
   - 
   - Monster
+=======
+  - MainCamera
+  - MinimapCamera
+>>>>>>> origin/UI/KHT
   - 
   - 
   - 

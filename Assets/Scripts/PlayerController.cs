@@ -137,7 +137,11 @@ public class PlayerController : MonoBehaviour
         if (Physics.Raycast(camTransform.position, camTransform.forward, out hit, Mathf.Infinity, targetLayer))
         {
             targetPosition = hit.point;
-            hit.transform.gameObject.SetActive(false);
+
+            IDamageable damageAble = hit.transform.gameObject.GetComponent<IDamageable>();
+            if (damageAble != null)
+                damageAble.Damage(1);
+            
         }
     }
 

@@ -3,7 +3,9 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - WeaponHolder
+  - Monster
   layers:
   - Default
   - TransparentFX
@@ -13,9 +15,9 @@ TagManager:
   - UI
   - 
   - Monster
-  - 
-  - 
-  - 
+  - Gun1
+  - Gun2
+  - Gun3
   - 
   - 
   - 

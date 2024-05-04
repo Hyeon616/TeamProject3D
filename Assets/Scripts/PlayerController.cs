@@ -7,7 +7,11 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private CinemachineVirtualCamera aimCam;
 
-
+    public PlayerInput playerInput;
+    
+    public GameObject grenadePrefab;
+    public Transform throwPoint;
+    
     public float BasePlayerHp = 50.0f;
     public int currentBullet = 30;//쏘고 남은 현재 총알 개수 
     public int maxBullet = 100;//예비 총알 개수
@@ -38,13 +42,15 @@ public class PlayerController : MonoBehaviour
 
     private Animator anim;
     private CharacterController cc;
-
+    public GameObject weapon;
+    
 
     private Transform camTransform;
 
 
     void Start()
     {
+        playerInput = GetComponent<PlayerInput>();
         anim = GetComponent<Animator>();
         cc = GetComponent<CharacterController>();
 
@@ -52,6 +58,7 @@ public class PlayerController : MonoBehaviour
         jumpVelocity = Mathf.Abs(gravity) * timeToJumpApex;
 
         camTransform = Camera.main.transform;
+       
 
 
         Debug.Log($"캐릭터 HP : {BasePlayerHp}");
@@ -61,11 +68,47 @@ public class PlayerController : MonoBehaviour
     {
         Move();
         Jump();
+        Zoom();
+        ThrowGrenade();
+    }
+
+    private void Zoom()
+    {
+        playerInput.actions["Zoom"].performed += ctx =>
+        {
+            if (Mouse.current.rightButton.isPressed && aimCam.m_Lens.FieldOfView == 60)
+            {
+                aimCam.m_Lens.FieldOfView = 30;
+            }
+            else { aimCam.m_Lens.FieldOfView = 60; }
+        };
+    }
+
+    private void ThrowGrenade()
+    {
+        playerInput.actions["Toss"].performed += ctx =>
+        {
+            if (Keyboard.current.eKey.isPressed)
+            {
+                weapon.SetActive(false);
+                anim.SetTrigger("Toss");
+                Invoke("Toss", 2f);
+                Invoke("Active", 3);
+            }
+        };
+    }
+    private void Toss()
+    {
+        GameObject grenand = Instantiate(grenadePrefab, throwPoint.position, throwPoint.rotation);
+    }
+
+    private void Active()
+    {
+        weapon.SetActive(true);
     }
 
     private void Move()
     {
-
         float targetSpeed = sprint ? sprintSpeed : moveSpeed;
 
         if (move == Vector3.zero)

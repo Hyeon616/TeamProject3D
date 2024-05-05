@@ -5,24 +5,23 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-
     [SerializeField] private CinemachineVirtualCamera aimCam;
 
     public PlayerInput playerInput;
-    public GameObject weapon;
+        
     public GameObject grenadePrefab;
     public Transform throwPoint;
     public AudioSource audioSource;
     public AudioClip fireSound;
-    public GameObject parentObject;
-
-
+    
+    
     public float BasePlayerHp = 50.0f;
     public int currentBullet = 30;//쏘고 남은 현재 총알 개수 
+    
     public int maxBullet = 100;//예비 총알 개수
     public int currentBulletTemp = 30;//장전 시 30개 채워지도록 하는 변수
+    public int currentgrenade = 10;
 
-    
     private float moveSpeed = 2.0f;
     private float sprintSpeed = 4.0f;
 
@@ -49,9 +48,7 @@ public class PlayerController : MonoBehaviour
     private Animator anim;
     private CharacterController cc;
     private Transform camTransform;
-    private GameObject[] GunNumber;
-
-
+    private GameObject parentObject;
 
 
     void Start()
@@ -61,6 +58,7 @@ public class PlayerController : MonoBehaviour
         cc = GetComponent<CharacterController>();
         audioSource = GetComponent<AudioSource>();
         parentObject = GameObject.FindWithTag("WeaponHolder");
+        
 
         audioSource.clip = fireSound;
 
@@ -95,10 +93,11 @@ public class PlayerController : MonoBehaviour
     {
         playerInput.actions["Toss"].performed += ctx =>
         {
-            if (Keyboard.current.eKey.isPressed)
+            if (Keyboard.current.eKey.isPressed && currentgrenade != 0)
             {
                 StartCoroutine(Active());
             }
+            else { Debug.Log("폭탄 없음"); }
         };
     }
 
@@ -115,6 +114,7 @@ public class PlayerController : MonoBehaviour
     private void Toss()
     {
         GameObject grenand = Instantiate(grenadePrefab, throwPoint.position, throwPoint.rotation);
+        currentgrenade -= 1;
     }
 
     private void Move()
@@ -167,8 +167,6 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
-
-
 
     public void OnMove(InputValue inputValue)
     {

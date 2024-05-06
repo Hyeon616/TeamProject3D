@@ -10,6 +10,6 @@ public class Bullet : MonoBehaviour
     {
         IDamageable damageAble = collider.GetComponent<IDamageable>();
         if (damageAble != null)
-            damageAble.Damage();
+            damageAble.Damage(1);
     }
 }

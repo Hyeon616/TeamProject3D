@@ -1,3 +1,9 @@
+using UnityEngine;
+using Cinemachine;
+using UnityEngine.InputSystem;
+using System.Collections;
+
+
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private CinemachineVirtualCamera aimCam;
@@ -203,11 +209,12 @@ public class PlayerController : MonoBehaviour
                 if (damageAble != null)
                 {
 
-                    damageAble.Damage();
-
-                    //if (gameObject.layer == 8) damageAble.Damage(1);
-                    //else if (gameObject.layer == 9) damageAble.Damage(2);
-                    //else if (gameObject.layer == 10) damageAble.Damage(5);
+                    if (gameObject.layer == 8)
+                        damageAble.Damage(1);
+                    else if (gameObject.layer == 9)
+                        damageAble.Damage(2);
+                    else if (gameObject.layer == 10)
+                        damageAble.Damage(5);
 
                 }
             }

@@ -17,9 +17,10 @@ public class TakeDamage : MonoBehaviour, IDamageable
 
     }
 
-    public void Damage()
+    public void Damage(int damage)
     {
-        monsterHp.hp -= hitDamage;
+
+        monsterHp.hp -= (hitDamage + damage);
 
         if (monsterHp.hp <= 0)
         {

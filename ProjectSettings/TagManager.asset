@@ -7,6 +7,7 @@ TagManager:
   - MonsterHead
   - Monster
   - ItemSpawner
+  - WeaponHolder
   layers:
   - Default
   - TransparentFX
@@ -22,6 +23,9 @@ TagManager:
   - MainCamera
   - MinimapCamera
   - 
+  - Gun1
+  - Gun2
+  - Gun3
   - 
   - 
   - 

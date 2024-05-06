@@ -1,21 +1,19 @@
-using Cinemachine;
-using UnityEngine;
-using UnityEngine.InputSystem;
-
 public class PlayerController : MonoBehaviour
 {
-
     [SerializeField] private CinemachineVirtualCamera aimCam;
 
     public PlayerInput playerInput;
-    
     public GameObject grenadePrefab;
     public Transform throwPoint;
-    
+    public AudioSource audioSource;
+    public AudioClip fireSound;
+
     public float BasePlayerHp = 50.0f;
     public int currentBullet = 30;//쏘고 남은 현재 총알 개수 
+
     public int maxBullet = 100;//예비 총알 개수
     public int currentBulletTemp = 30;//장전 시 30개 채워지도록 하는 변수
+    public int currentgrenade = 3;
 
     private float moveSpeed = 2.0f;
     private float sprintSpeed = 4.0f;
@@ -42,10 +40,8 @@ public class PlayerController : MonoBehaviour
 
     private Animator anim;
     private CharacterController cc;
-    public GameObject weapon;
-    
-
     private Transform camTransform;
+    private GameObject parentObject;
 
 
     void Start()
@@ -53,12 +49,19 @@ public class PlayerController : MonoBehaviour
         playerInput = GetComponent<PlayerInput>();
         anim = GetComponent<Animator>();
         cc = GetComponent<CharacterController>();
+        audioSource = GetComponent<AudioSource>();
+        parentObject = GameObject.FindWithTag("WeaponHolder");
+
+
+        audioSource.clip = fireSound;
 
         gravity = -(2 * jumpHeight) / Mathf.Pow(timeToJumpApex, 2);
         jumpVelocity = Mathf.Abs(gravity) * timeToJumpApex;
 
         camTransform = Camera.main.transform;
-       
+
+        // Debug.Log($"캐릭터 HP : {BasePlayerHp}");
+
     }
 
     void Update()
@@ -87,23 +90,28 @@ public class PlayerController : MonoBehaviour
     {
         playerInput.actions["Toss"].performed += ctx =>
         {
-            if (Keyboard.current.eKey.isPressed)
+            if (Keyboard.current.eKey.isPressed && currentgrenade != 0)
             {
-                weapon.SetActive(false);
-                anim.SetTrigger("Toss");
-                Invoke("Toss", 2f);
-                Invoke("Active", 3);
+                StartCoroutine(Active());
             }
+            else { Debug.Log("폭탄 없음"); }
         };
     }
+
+    private IEnumerator Active()
+    {
+        GameObject obj = GameObject.Find("WeaponHolder");
+        obj.SetActive(false);
+        anim.SetTrigger("Toss");
+        Invoke("Toss", 2f);
+        yield return new WaitForSeconds(3);
+        obj.SetActive(true);
+    }
+
     private void Toss()
     {
         GameObject grenand = Instantiate(grenadePrefab, throwPoint.position, throwPoint.rotation);
-    }
-
-    private void Active()
-    {
-        weapon.SetActive(true);
+        currentgrenade -= 1;
     }
 
     private void Move()
@@ -157,8 +165,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-
-
     public void OnMove(InputValue inputValue)
     {
         MoveInput(inputValue.Get<Vector3>());
@@ -182,6 +188,7 @@ public class PlayerController : MonoBehaviour
         {
             FireInput(inputValue.isPressed);
             anim.SetTrigger("Fire");
+            audioSource.PlayOneShot(fireSound);
             RaycastHit hit;
 
             currentBullet -= 1;
@@ -195,22 +202,28 @@ public class PlayerController : MonoBehaviour
                 IDamageable damageAble = hit.transform.gameObject.GetComponent<IDamageable>();
                 if (damageAble != null)
                 {
+
                     damageAble.Damage();
+
+                    //if (gameObject.layer == 8) damageAble.Damage(1);
+                    //else if (gameObject.layer == 9) damageAble.Damage(2);
+                    //else if (gameObject.layer == 10) damageAble.Damage(5);
+
                 }
             }
             if (currentBullet == 0)
             {
                 OnReload();
             }
-        }  
+        }
     }
     public void OnReload()
     {
-         if (maxBullet > 0)
+        if (maxBullet > 0)
         {
-            reload = true;            
+            reload = true;
             anim.SetTrigger("Reload");
-            Invoke("BulletDelay", 3);         
+            Invoke("BulletDelay", 3);
         }
 
     }

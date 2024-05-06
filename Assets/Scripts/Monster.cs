@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class Monster : MonoBehaviour
 {
+
     public float maxHp = 5f;
     public float hp;
 
@@ -38,7 +39,6 @@ public class Monster : MonoBehaviour
         {
             collider.GetComponent<PlayerController>().BasePlayerHp -= attackDamage;
         }
-
     }
 
 }

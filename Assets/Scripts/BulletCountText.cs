@@ -17,7 +17,6 @@ public class BulletCountText : MonoBehaviour
       playerController = playerInfo.GetComponent<PlayerController>();
     }
 
-    
     void Update()
     {
         text.text = $"Bullet : {playerController.currentBullet} / {playerController.maxBullet} ";

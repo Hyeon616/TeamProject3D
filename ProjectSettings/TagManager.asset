@@ -6,6 +6,7 @@ TagManager:
   tags:
   - MonsterHead
   - Monster
+  - ItemSpawner
   layers:
   - Default
   - TransparentFX

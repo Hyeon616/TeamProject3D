@@ -262,5 +262,13 @@ public class PlayerController : MonoBehaviour
         }
         return false;
     }
-
+    public void bulletUp(int v)
+    {
+        maxBullet += v;
+        currentBullet = currentBulletTemp;
+    }
+    public void hpUp(int v)
+    {
+        maxBullet += v;
+    }
 }

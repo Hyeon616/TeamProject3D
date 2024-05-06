@@ -115,10 +115,14 @@ public class ItemSpawner : MonoBehaviour
     // 오브젝트 풀 초기화 함수
     private void InitializeObjectPool()
     {
+        // 풀의 부모 오브젝트 생성
+        GameObject poolParent = new GameObject("ObjectPool");
+
         // 오브젝트 풀에 미리 아이템 오브젝트를 생성하여 추가
         for (int i = 0; i < maxPoolSize; i++)
         {
-            GameObject newItem = Instantiate(itemPrefabs[Random.Range(0, itemPrefabs.Length)]);
+            // 부모 오브젝트 아래에 새로운 아이템 생성
+            GameObject newItem = Instantiate(itemPrefabs[Random.Range(0, itemPrefabs.Length)], poolParent.transform);
             objectPool.Add(newItem);
             newItem.SetActive(false); // 초기에는 비활성화 상태로 설정
         }

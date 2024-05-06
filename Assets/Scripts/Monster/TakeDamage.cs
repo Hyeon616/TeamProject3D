@@ -5,16 +5,16 @@ public class TakeDamage : MonoBehaviour, IDamageable
 {
 
     public float hitDamage;
-    private GameObject monster;
+    [SerializeField] private GameObject monster;
     private Monster monsterHp;
     private MonsterController monsterController;
 
     private void Start()
     {
-        monster = transform.root.gameObject;
+
         monsterHp = monster.GetComponent<Monster>();
         monsterController = monster.GetComponent<MonsterController>();
-        
+
     }
 
     public void Damage()

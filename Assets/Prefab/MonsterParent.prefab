@@ -227,6 +227,10 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 1720486993983022789, guid: fef2f54f1ccadd2459a312fdbbbc755f, type: 3}
+      propertyPath: m_Value
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1720486994101274631, guid: fef2f54f1ccadd2459a312fdbbbc755f, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -358,6 +362,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitDamage: 5
+  monster: {fileID: 1210718062446221908}
 --- !u!1 &1210718062446221846 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100002, guid: 114cb4bcf81314b65b611fcc4f346ee1, type: 3}
@@ -390,6 +395,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitDamage: 1
+  monster: {fileID: 1210718062446221908}
 --- !u!1 &1210718062446221908 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100064, guid: 114cb4bcf81314b65b611fcc4f346ee1, type: 3}

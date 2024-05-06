@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class UI_HPBar : MonoBehaviour
 {
     Monster monster;
+
     void Start()
     {
         Canvas canvas = GetComponent<Canvas>();
@@ -20,10 +21,10 @@ public class UI_HPBar : MonoBehaviour
     void Update()
     {
         Transform parent = transform.parent;
-        transform.position = parent.position + Vector3.up * (parent.GetComponent<Collider>().bounds.size.y+0.7f);
+        transform.position = parent.position + Vector3.up * (parent.GetComponent<CapsuleCollider>().bounds.size.y+0.5f);
         transform.rotation = Camera.main.transform.rotation;
 
-        float ratio = monster.hp / (float)monster.maxHp;
+        float ratio = monster.hp / monster.maxHp;
         SetHpRatio(ratio);
     }
 
@@ -31,7 +32,6 @@ public class UI_HPBar : MonoBehaviour
     {
         gameObject.GetComponentInChildren<Slider>().value = ratio;
     }
-
 
 
 }

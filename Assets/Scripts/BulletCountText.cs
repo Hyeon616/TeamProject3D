@@ -20,6 +20,6 @@ public class BulletCountText : MonoBehaviour
     
     void Update()
     {
-        text.text = $"Bullet : {playerController.currentBullet} / {playerController.maxBullet} ";
+        text.text = $" {playerController.currentBullet} / {playerController.maxBullet} ";
     }
 }

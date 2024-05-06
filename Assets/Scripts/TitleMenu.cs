@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class TitleMenu : MonoBehaviour
 {
+   
     public GameObject mainTitle;
     public GameObject setting;
     private bool isTitle = true;
@@ -30,8 +31,11 @@ public class TitleMenu : MonoBehaviour
 
     }
     public void OnClickGameStrat()
-    {        
-        SceneManager.LoadScene("Demo");
+    {
+        //SceneManager.LoadScene("Demo");
+        //StartGameScene();
+        Debug.Log("게임시작");
+
     }
     public void OnClickSetting()
     {
@@ -49,5 +53,9 @@ public class TitleMenu : MonoBehaviour
     {
         isTitle = true;
     }
-
+    public void OnClickTitle()
+    {
+        SceneManager.LoadScene("Title");
+    }    
+    
 }

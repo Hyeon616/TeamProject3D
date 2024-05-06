@@ -1,19 +1,44 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Monster : MonoBehaviour, IDamageable
+public class Monster : MonoBehaviour
 {
-    public int hp = 5;
+    public float maxHp = 5f;
+    public float hp;
 
-    public void Damage(int damage)
+    [SerializeField] private float attackDamage = 1.0f;
+
+    BoxCollider boxCollider;
+
+    private void Start()
     {
-        hp -= damage;
+        hp = maxHp;
+        boxCollider = GetComponent<BoxCollider>();
 
-        if(hp <= 0)
+        boxCollider.enabled = false;
+    }
+
+
+    public void AttackStart()
+    {
+        boxCollider.enabled = true;
+    }
+
+
+    public void AttackEnd()
+    {
+        boxCollider.enabled = false;
+    }
+
+    
+
+    private void OnTriggerEnter(Collider collider)
+    {
+        if (collider.CompareTag("Player"))
         {
-            gameObject.SetActive(false);
+            collider.GetComponent<PlayerController>().BasePlayerHp -= attackDamage;
         }
+
     }
 
 }

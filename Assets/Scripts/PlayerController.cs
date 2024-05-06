@@ -59,17 +59,16 @@ public class PlayerController : MonoBehaviour
 
         camTransform = Camera.main.transform;
        
-
-
-        Debug.Log($"캐릭터 HP : {BasePlayerHp}");
     }
 
     void Update()
     {
+        Cursor.lockState = CursorLockMode.Locked;
         Move();
         Jump();
         Zoom();
         ThrowGrenade();
+        //Debug.Log($"캐릭터 HP : {BasePlayerHp}");
     }
 
     private void Zoom()
@@ -189,15 +188,15 @@ public class PlayerController : MonoBehaviour
 
             Vector3 targetPosition = Vector3.zero;
 
-            if (Physics.Raycast(camTransform.position, camTransform.forward, out hit, Mathf.Infinity, targetLayer))
+            if (Physics.Raycast(camTransform.position, camTransform.forward, out hit, Mathf.Infinity))
             {
                 targetPosition = hit.point;
 
                 IDamageable damageAble = hit.transform.gameObject.GetComponent<IDamageable>();
                 if (damageAble != null)
-                    damageAble.Damage(1);
-
-
+                {
+                    damageAble.Damage();
+                }
             }
             if (currentBullet == 0)
             {

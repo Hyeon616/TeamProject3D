@@ -11,7 +11,6 @@ public class TakeDamage : MonoBehaviour, IDamageable
 
     private void Start()
     {
-
         monsterHp = monster.GetComponent<Monster>();
         monsterController = monster.GetComponent<MonsterController>();
 

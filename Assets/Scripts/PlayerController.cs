@@ -1,7 +1,7 @@
-using UnityEngine;
 using Cinemachine;
-using UnityEngine.InputSystem;
 using System.Collections;
+using UnityEngine;
+using UnityEngine.InputSystem;
 
 
 public class PlayerController : MonoBehaviour
@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour
     public AudioSource audioSource;
     public AudioClip fireSound;
 
-    public float BasePlayerHp = 50.0f;
+    public float BasePlayerHp = 10.0f;
     public int currentBullet = 30;//쏘고 남은 현재 총알 개수 
 
     public int maxBullet = 100;//예비 총알 개수
@@ -46,7 +46,7 @@ public class PlayerController : MonoBehaviour
 
     private Animator anim;
     private CharacterController cc;
-    private Transform camTransform;
+    [SerializeField] private Transform camTransform;
     private GameObject parentObject;
 
 
@@ -77,7 +77,7 @@ public class PlayerController : MonoBehaviour
         Jump();
         Zoom();
         ThrowGrenade();
-        //Debug.Log($"캐릭터 HP : {BasePlayerHp}");
+        Debug.Log($"캐릭터 HP : {BasePlayerHp}");
     }
 
     private void Zoom()

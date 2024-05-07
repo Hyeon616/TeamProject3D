@@ -12,7 +12,7 @@ public class HPUI : MonoBehaviour
     private float currentHp;
     public GameObject player;
 
-    // Start is called before the first frame update
+    
     void Start()
     {
         currentHp = player.GetComponent<PlayerController>().BasePlayerHp;

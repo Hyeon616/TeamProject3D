@@ -66,7 +66,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        Cursor.lockState = CursorLockMode.Locked;
+        
         Move();
         Jump();
         Zoom();

@@ -34,7 +34,6 @@ public class PlayerController : MonoBehaviour
 
     public Vector3 move;
 
-    [SerializeField] private LayerMask targetLayer;
     public float jumpHeight = 2.0f;
     public float timeToJumpApex = 0.4f;
     private float gravity;
@@ -47,7 +46,6 @@ public class PlayerController : MonoBehaviour
     private Animator anim;
     private CharacterController cc;
     [SerializeField] private Transform camTransform;
-    private GameObject parentObject;
 
 
     void Start()
@@ -56,8 +54,6 @@ public class PlayerController : MonoBehaviour
         anim = GetComponent<Animator>();
         cc = GetComponent<CharacterController>();
         audioSource = GetComponent<AudioSource>();
-        parentObject = GameObject.FindWithTag("WeaponHolder");
-
 
         audioSource.clip = fireSound;
 
@@ -65,8 +61,6 @@ public class PlayerController : MonoBehaviour
         jumpVelocity = Mathf.Abs(gravity) * timeToJumpApex;
 
         camTransform = Camera.main.transform;
-
-        // Debug.Log($"Ä³¸¯ÅÍ HP : {BasePlayerHp}");
 
     }
 

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
-public class PlayerUI : MonoBehaviour
+public class HPUI : MonoBehaviour
 {
     [SerializeField]
     private Slider hpbar;

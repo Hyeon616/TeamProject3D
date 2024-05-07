@@ -9,10 +9,6 @@ public class TitleMenu : MonoBehaviour
     public GameObject mainTitle;
     public GameObject setting;
     private bool isTitle = true;
-    void Start()
-    {
-        
-    }
 
 
     void Update()
@@ -32,10 +28,7 @@ public class TitleMenu : MonoBehaviour
     }
     public void OnClickGameStrat()
     {
-        //SceneManager.LoadScene("Demo");
-        //StartGameScene();
-        Debug.Log("게임시작");
-
+        SceneManager.LoadScene("Main");
     }
     public void OnClickSetting()
     {

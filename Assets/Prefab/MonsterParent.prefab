@@ -428,6 +428,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hitDamage: 5
   monster: {fileID: 1210718062446221908}
+  ui: {fileID: 0}
 --- !u!1 &1210718062446221846 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100002, guid: 114cb4bcf81314b65b611fcc4f346ee1, type: 3}
@@ -461,6 +462,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hitDamage: 1
   monster: {fileID: 1210718062446221908}
+  ui: {fileID: 0}
 --- !u!1 &1210718062446221908 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100064, guid: 114cb4bcf81314b65b611fcc4f346ee1, type: 3}

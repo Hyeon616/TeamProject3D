@@ -23,6 +23,7 @@ public class Monster : MonoBehaviour
     public void AttackStart()
     {
         boxCollider.enabled = true;
+        PlayerUIManager.Instance.GetDamaged(1);
     }
 
 

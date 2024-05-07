@@ -16,7 +16,7 @@ public class TakeDamage : MonoBehaviour, IDamageable
 
         monsterHp = monster.GetComponent<Monster>();
         monsterController = monster.GetComponent<MonsterController>();
-        ui.GetComponent<PlayerUI>();
+        ui.GetComponent<PlayerUIManager>();
     }
 
     public void Damage(int damage)
@@ -27,7 +27,7 @@ public class TakeDamage : MonoBehaviour, IDamageable
         if (monsterHp.hp <= 0)
         {
             monsterController.state = MonsterController.State.DIE;
-            ui.GetComponent<PlayerUI>().currentkillcount++;
+            ui.GetComponent<PlayerUIManager>().currentkillcount++;
             StartCoroutine(MonsterSetActiveFalse(monster, 3f));
 
         }

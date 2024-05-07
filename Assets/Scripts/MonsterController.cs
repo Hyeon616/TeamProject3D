@@ -58,7 +58,6 @@ public class MonsterController : MonoBehaviour
     private void Start()
     {
         wayPointIndex = 0;
-        agent.SetDestination(wayPoints[wayPointIndex].position);
         StartCoroutine(CheckMonsterState());
     }
 

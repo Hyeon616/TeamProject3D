@@ -56,4 +56,9 @@ public class PlayerUIManager : Singleton<PlayerUIManager>
     {
         hpbar.value = currentHp / MaxHp;
     }
+    public void hpUp()
+    {
+        currentHp = MaxHp;
+        CurrentHp();
+    }
 }

@@ -45,7 +45,11 @@ public class PlayerUIManager : Singleton<PlayerUIManager>
         }
 
     }
-
+    public void hpUp()
+    {
+        currentHp = MaxHp;
+        CurrentHp();
+    }
     public void GetDamaged(float num)
     {
         currentHp -= num;

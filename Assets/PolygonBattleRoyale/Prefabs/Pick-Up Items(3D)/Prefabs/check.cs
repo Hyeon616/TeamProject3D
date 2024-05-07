@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class check : MonoBehaviour
 {
+
     private void Update()
     {
         RaycastHit hit;
@@ -20,6 +21,7 @@ public class check : MonoBehaviour
     public enum ItemType
     {
         BulleUpdate,
+        HealthUpdate,
     }
     public ItemType itemType; // 아이템 종류
     private void OnTriggerEnter(Collider other)
@@ -32,6 +34,10 @@ public class check : MonoBehaviour
                 case ItemType.BulleUpdate:
                     other.gameObject.GetComponent<PlayerController>().bulletUp(20); // 총알/탄약 up
                     break;
+                case ItemType.HealthUpdate:
+                    PlayerUIManager.Instance.hpUp();
+                    break;
+
             }
             gameObject.SetActive(false); // 아이템 회수 등의 작업 수행
         }

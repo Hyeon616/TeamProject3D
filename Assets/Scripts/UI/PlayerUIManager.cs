@@ -1,9 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
 public class PlayerUIManager : Singleton<PlayerUIManager>
 {
@@ -16,6 +13,7 @@ public class PlayerUIManager : Singleton<PlayerUIManager>
     public int currentkillcount;
 
     public TextMeshProUGUI killcount;
+    public TextMeshProUGUI grenadeCount;
     public float MaxHp;
     public float currentHp;
     public GameObject player;
@@ -33,7 +31,7 @@ public class PlayerUIManager : Singleton<PlayerUIManager>
     void Update()
     {
         killcount.text = $" {currentkillcount} / {maxkillcount}";
-
+        grenadeCount.text = $" {player.GetComponent<PlayerController>().currentgrenade}";
         if (Input.GetKeyDown(KeyCode.L))
         {
             GetDamaged(1);

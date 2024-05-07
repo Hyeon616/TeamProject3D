@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : Singleton<PlayerController>
 {
     [SerializeField] private CinemachineVirtualCamera aimCam;
 
@@ -71,7 +71,7 @@ public class PlayerController : MonoBehaviour
         Jump();
         Zoom();
         ThrowGrenade();
-        Debug.Log($"Ä³¸¯ÅÍ HP : {BasePlayerHp}");
+       
     }
 
     private void Zoom()
@@ -203,11 +203,11 @@ public class PlayerController : MonoBehaviour
                 if (damageAble != null)
                 {
 
-                    if (gameObject.layer == 8)
+                    if (gameObject.layer == 14)
                         damageAble.Damage(1);
-                    else if (gameObject.layer == 9)
+                    else if (gameObject.layer == 15)
                         damageAble.Damage(2);
-                    else if (gameObject.layer == 10)
+                    else if (gameObject.layer == 16)
                         damageAble.Damage(5);
 
                 }

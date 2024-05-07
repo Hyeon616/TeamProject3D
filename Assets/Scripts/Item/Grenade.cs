@@ -38,21 +38,18 @@ public class Grenade : MonoBehaviour
         particleEffect.Play();
         sphereCollider.enabled = true;
         yield return new WaitForSeconds(0.1f);
-
+        
         Destroy(gameObject);
         Destroy(effect, particleEffect.main.duration);
 
-        Debug.Log("폭탄 터짐");
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Monster"))
         {
-            //Destroy(other.gameObject);
             body.velocity = Vector3.zero;
             other.gameObject.SetActive(false);
-            Debug.Log("몬스터와 충돌됨");
         }
     }
 }

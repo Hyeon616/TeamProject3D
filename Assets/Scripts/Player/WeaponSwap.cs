@@ -22,7 +22,7 @@ public class WeaponSwap : MonoBehaviour
         }
         Transform CloneWeapon = parentTransform.GetChild(weaponIndex);
         CloneWeapon.gameObject.SetActive(true);
-        gameObject.layer = 8;
+        gameObject.layer = 14;
     }
 
     void Update()
@@ -36,13 +36,14 @@ public class WeaponSwap : MonoBehaviour
                 anim.SetTrigger("Swap");
 
                 weaponIndex++;
-                if (weaponIndex == 1) { gameObject.layer = 9; }
-                else if (weaponIndex == 2) { gameObject.layer = 10; }
+                if (weaponIndex == 1) { gameObject.layer = 14; }
+                else if (weaponIndex == 2) { gameObject.layer = 15; }
+                else if (weaponIndex == 3) { gameObject.layer = 16; }
 
                 if (weaponIndex >= prefabsToSpawn.Length)
                 {
                     weaponIndex = 0;
-                    gameObject.layer = 8;
+                    gameObject.layer = 14;
                 }
 
                 Transform nextCloneWeapon = parentTransform.GetChild(weaponIndex);
